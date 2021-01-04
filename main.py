@@ -6,6 +6,6 @@ inputString = input("Enter your term here: ")
 
 tokens = tk.tokenize(inputString)
 
-ast = ast.build(tokens)
+tree = ast.create_tree(tokens)
 
-print(calc.calculate(ast))
+print(calc.calculate(tree))

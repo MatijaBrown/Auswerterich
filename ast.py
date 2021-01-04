@@ -1,5 +1,4 @@
 import tokenizer as tk
-import util
 
 class Node():
     pass
@@ -111,6 +110,11 @@ def create_node(token):
         currentNode.right = node
 
 
+def error(message):
+    print(message)
+    exit(-1)
+
+
 def create_tree(tokens):
     global depthInBraces
     depthInBraces = 0
@@ -142,12 +146,3 @@ def create_tree(tokens):
     if depthInBraces > 0:
         error("More '(' than ')'!")
     return tree
-
-
-def error(message):
-    print(message)
-    exit(-1)
-
-
-def build(tokens):
-    return create_tree(tokens)
