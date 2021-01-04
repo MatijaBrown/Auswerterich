@@ -8,4 +8,6 @@ tokens = tk.tokenize(inputString)
 
 ast = ast.build(tokens)
 
+
+
 print(calc.calculate(ast))
