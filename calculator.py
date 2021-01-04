@@ -20,6 +20,7 @@ def do_tree_operations(left, op, right):
     elif op == tk.ROOT:
         return pow(left, 1/right)
 
+
 def calc(node):
     if isinstance(node, ast.Value):
         return node.as_number()

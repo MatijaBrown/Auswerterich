@@ -18,6 +18,9 @@ class Value(Node):
             v = self.value.litteral,
         )
 
+    def __repr__(self):
+        return self.__str__()
+
 
 class Operation(Node):
 
@@ -31,8 +34,8 @@ class Operation(Node):
         return "Operator({l} {op} {r} p={pri})".format(
             l = self.left,
             op = self.op,
-            pri = self.pri,
             r = self.right,
+            pri = self.pri
         )
 
     def __repr__(self):
@@ -99,7 +102,10 @@ def create_node(token):
             tree.root = None
         else:
             # Insert Below
-            node = Operation(tree.root.right, token, pri, None)
+            currentNode = tree.root
+            while (currentNode.right != None) and (not(isinstance(currentNode.right, Value))):
+                currentNode = currentNode.right
+            node = Operation(currentNode.right, token, pri, None)
     
     if tree.empty():
         tree.root = node
@@ -121,7 +127,7 @@ def create_tree(tokens):
     for i in range(len(tokens)):
         token = tokens[i]
 
-        if ((i == 0) or (tokens[i - 1].category == tk.OPERATION)) and (token.category == tk.OPERATION):
+        if ((i == 0) or (tokens[i - 1].category == tk.OPERATION) or (tokens[i - 1].type == tk.OPEN_BRACES)) and (token.category == tk.OPERATION):
             if (token.type != tk.MINUS) and (token.category == tk.OPERATION):
                 error("Illegal expression!")
             elif token.category == tk.OPERATION:
@@ -130,6 +136,7 @@ def create_tree(tokens):
                 depthInBraces += 1
                 create_node(tk.Token("0", tk.NUMBER, tk.VALUE))
                 create_node(tk.Token("-", tk.MINUS, tk.OPERATION))
+                depthInBraces -= 1
         elif token.category == tk.BRACES:
             if token.type == tk.OPEN_BRACES:
                 depthInBraces += 1
@@ -138,11 +145,8 @@ def create_tree(tokens):
             if depthInBraces < 0:
                 error("More ')' than '('!")
         else:
-            if ((i > 0) and (tokens[i - 1].type == tk.MINUS) and (token.category == tk.OPERATION)) or ((depthInBraces > 0) and (i == len(tokens) - 1)):
-                depthInBraces -= 1
-
             create_node(token)
 
-    if depthInBraces > 0:
+    if depthInBraces > 1:
         error("More '(' than ')'!")
     return tree
