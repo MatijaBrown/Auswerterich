@@ -1,3 +1,3 @@
-It calculates, it dies, it drives your car.
+It calculates, it dires your laundry, it drives your car.
 
 No warranty!
