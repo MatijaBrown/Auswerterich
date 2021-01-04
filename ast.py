@@ -134,7 +134,7 @@ def create_tree(tokens):
             if depthInBraces < 0:
                 error("More ')' than '('!")
         else:
-            if (i > 0) and (tokens[i - 1].type == tk.MINUS):
+            if ((i > 0) and (tokens[i - 1].type == tk.MINUS) and (token.category == tk.OPERATION)) or ((depthInBraces > 0) and (i == len(tokens) - 1)):
                 depthInBraces -= 1
 
             create_node(token)
